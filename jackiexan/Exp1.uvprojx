@@ -408,6 +408,16 @@
               <FileType>5</FileType>
               <FilePath>.\Serial.h</FilePath>
             </File>
+            <File>
+              <FileName>Time.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Time.h</FilePath>
+            </File>
+            <File>
+              <FileName>Time.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Time.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

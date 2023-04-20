@@ -7,6 +7,7 @@ void Pin_OutputMode(int port, int pin)
 	
 	switch(port)
 	{
+		
 		case PORT_A:
 		GPIOA_BASE_PTR->PDDR |= val;
 		break;
@@ -95,6 +96,10 @@ void ENABLE_PORTS(int port)
 	
 	switch(port)
 	{
+		case LPTMR:
+		SIM_BASE_PTR->SCGC5 |= SIM_SCGC5_LPTMR_MASK;
+		break;
+		
 		case PORT_A:
 		SIM_BASE_PTR->SCGC5 |= (1<<9);
 		break;

@@ -2,6 +2,7 @@
 #include "Serial.h"
 #include "IO.h"
 #include "string.h"
+#include "Time.h"
 
 void sendmessage(char * message) {
   UART0 -> D = 32;
@@ -12,16 +13,21 @@ void sendmessage(char * message) {
 }
 
 int main(void) {
+	
   PLL_Init();
-
   Serial_Init();
-
   uint8_t byteReceived = 0;
 
   ENABLE_PORTS(PORT_A);
   ENABLE_PORTS(PORT_C);
+	ENABLE_PORTS(LPTMR);
 
   SetPinMode(PORT_C, 13);
+	SetPinMode(PORT_B, 18);
+	
+	Pin_OutputMode(PORT_B,18);
+	
+	Time_Init();
 
   for (;;) {
     if (GetPinValue(PORT_C, 13)) {
@@ -29,5 +35,6 @@ int main(void) {
       sendmessage("EU AMO A FACENS - HAHAHA FALA DAPAZ");
     }
   }
+	
   return 0;
 }

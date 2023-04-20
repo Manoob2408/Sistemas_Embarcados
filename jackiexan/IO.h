@@ -6,6 +6,7 @@
 #define PORT_C 2
 #define PORT_D 3
 #define PORT_E 4
+#define LPTMR 5
 
 void ENABLE_PORTS(int port);
 void SetPinMode(int port, int pin);
