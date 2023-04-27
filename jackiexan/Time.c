@@ -25,15 +25,4 @@ void Time_Init()
 	LPTMR0_BASE_PTR->CSR |= LPTMR_CSR_TEN_MASK;
 }
 
-void LPTMR0_IRQHandler()
-	{
-		/*Verifica se a flag de interrupção está ativada*/
-		if(LPTMR0_BASE_PTR->CSR & LPTMR_CSR_TCF_MASK)
-		{
-			/*zera a flag de interrupção*/
-			LPTMR0_BASE_PTR->CSR = LPTMR0_BASE_PTR->CSR |
-			LPTMR_CSR_TCF_MASK;
-			/*inverte o estado do led*/
-			GPIOB_BASE_PTR->PTOR = (1 << 18);
-		}
-	}
+
