@@ -3,36 +3,54 @@
 #include "IO.h"
 #include "string.h"
 #include "Time.h"
+#include "ADC.h"
 
 int main(void) {
 	
   ENABLE_PORTS(PORT_A);
   ENABLE_PORTS(PORT_B);
-	ENABLE_PORTS(LPTMR);
+	ENABLE_PORTS(PORT_D);
 
-  //SetPinMode(PORT_C, 13);
 	SetPinMode(PORT_B, 18);
+	SetPinMode(PORT_B, 19);
+	SetPinMode(PORT_D, 1);
 	
+	Pin_OutputMode(PORT_B,18);
+	Pin_OutputMode(PORT_B,19);
 	Pin_OutputMode(PORT_B,18);
 	
 	PLL_Init();
   Serial_Init();
-  uint8_t byteReceived = 0;
+ 
 	Time_Init();
+	ADC_Init();
+	
+	uint8_t byteReceived = 0;
+	uint32_t voltage;
 
   
 	while(1){
-		if (READ_BIT(UART0->S1, UART0_S1_RDRF_MASK) != 0)
-		{
-			byteReceived = UART0->D;
+		
+		ADC_ReadChannel(13);
+		voltage = ADC_GetVoltage(ADC_ReadChannel(13), 3.3);
+		
+		if(voltage < 1){
+			Pin_Clear(PORT_D, 1);
+			Pin_Set(PORT_B, 18);
+			Pin_Set(PORT_B, 19);
 		}
-		if(byteReceived != 0)
+		
+		else if(voltage >= 1 && voltage < 2)
 		{
-			if (READ_BIT(UART0->S1, UART0_S1_TDRE_MASK) != 0)
-			{
-			UART0->D = byteReceived + 1;
-			byteReceived = 0;
-			}
+			Pin_Clear(PORT_B, 19);
+			Pin_Set(PORT_B, 18);
+			Pin_Set(PORT_D, 1);
+		}
+		
+		else{
+			Pin_Clear(PORT_B, 18);
+			Pin_Set(PORT_B, 19);
+			Pin_Set(PORT_D, 1);
 		}
 	}
 	
